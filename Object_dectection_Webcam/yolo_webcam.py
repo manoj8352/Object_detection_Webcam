@@ -6,6 +6,10 @@ import math
 cap = cv2.VideoCapture(1)
 
 model = YOLO('../Yolo-Weights/yolov8l.pt')
+classNames= []
+classFile = "coco.names"
+with open(classFile,"rt") as f:
+    classNames = f.read().rstrip("\n").split("\n")
 
 
 while True:
@@ -27,7 +31,7 @@ while True:
             conf = math.ceil((box.conf[0]*100))/100
             
             cls=int(box.cls[0])
-            cvzone.putTextRect(img,f'{conf}',(max(0,x1),max(35,y1)),scale=0.7,thickness=1  )
+            cvzone.putTextRect(img,f'{classNames[cls]}',(max(0,x1),max(35,y1)),scale=0.7,thickness=1  )
     
 
     cv2.imshow("Image",img)
